@@ -9,18 +9,35 @@ import {
   Pressable,
   TouchableOpacity,
 } from "react-native";
-import { useEffect, useState } from "react";
+import { Component, useEffect, useState } from "react";
 
 function InfoInput(props) {
-  const [enterText, setInfo] = useState({
-    name: "",
-    desc: "",
-    link: "",
-  });
+  const data = [
+    {
+      id: 1,
+      name: "Abc",
+      desc: "abc",
+      link: "abc",
+    },
+  ];
+  const [enterText, setInfo] = useState(data);
+  const [nameValue, setNameValue] = useState("");
+  const [descValue, setDescValue] = useState("");
+  const [linkValue, setLinkValue] = useState("");
 
-  function addInfo() {
-    props.onAddInfo(enterText);
-    setInfo("");
+  function handleAdd() {
+    const newItem = {
+      id: enterText[enterText.length - 1].id + 1,
+      name: nameValue,
+      desc: descValue,
+      link: linkValue,
+    };
+    // const newInfoList = [...enterText, newItem];
+    // setInfo(newInfoList);
+    props.onAddInfo(newItem);
+    setNameValue("");
+    setDescValue("");
+    setLinkValue("");
   }
 
   return (
@@ -30,24 +47,26 @@ function InfoInput(props) {
         <TextInput
           style={styles.textInput}
           placeholder="Nhập tên"
-          name="name"
-          value={enterText.name}
-          onChange={(e) => setInfo({ ...enterText, name: e.target.value })}
+          value={nameValue}
+          onChangeText={(text) => setNameValue(text)}
         />
+
         <TextInput
           style={styles.textInput}
           placeholder="Nhập mô tả"
-          value={enterText.desc}
-          onChange={(e) => setInfo({ ...enterText, desc: e.target.value })}
+          value={descValue}
+          onChangeText={(text) => setDescValue(text)}
         />
+
         <TextInput
           style={styles.textInput}
           placeholder="Link ảnh"
-          value={enterText.link}
-          onChange={(e) => setInfo({ ...enterText, link: e.target.value })}
+          value={linkValue}
+          onChangeText={(text) => setLinkValue(text)}
         />
+
         <View style={styles.bottomContainer}>
-          <TouchableOpacity style={styles.buttonStyle} onPress={addInfo}>
+          <TouchableOpacity style={styles.buttonStyle} onPress={handleAdd}>
             <Text style={styles.buttonText}>Thêm</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.buttonStyle} onPress={props.onCancel}>

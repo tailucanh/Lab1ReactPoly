@@ -23,15 +23,8 @@ export default function App() {
   function endAddInfo() {
     setModalIsVisible(false);
   }
-  function addInfo(...enterText) {
-    setInfo((e) => [
-      ...e,
-      {
-        name: enterText,
-        desc: enterText,
-        link: enterText,
-      },
-    ]);
+  function addInfo(obj) {
+    setInfo((e) => [...e, { ...obj }]);
     endAddInfo();
   }
 
@@ -57,13 +50,9 @@ export default function App() {
       <View style={styles.listInfoContainer}>
         <FlatList
           data={isInfo}
-          renderItem={(itemData) => {
+          renderItem={({ item }) => {
             return (
-              <InfoItem
-                name={itemData.name}
-                description={itemData.desc}
-                link={itemData.link}
-              />
+              <InfoItem name={item.name} desc={item.desc} link={item.link} />
             );
           }}
           keyExtractor={(item, index) => {
